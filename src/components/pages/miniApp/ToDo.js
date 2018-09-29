@@ -25,7 +25,7 @@ const TaskList = Styled.input`
   padding: 0;
   font-size: 18px;
   text-align: left;
-  margin: 2% 1% 0 1%;
+  margin: 15px 1% 0 1%;
   border: none;
   border-bottom: ${edit.borderB};
 

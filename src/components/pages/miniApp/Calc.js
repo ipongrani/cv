@@ -62,24 +62,27 @@ export default class Calc extends React.Component {
 
   eq = () => {
 
+    console.log("screenVal: ", this.state.screenVal)
     let clean;
 
     try {
 
-      clean = this.state.screenVal.split('');
-      clean = clean.filter((data) => {
-        if(isNaN(data) === false || data === "*" || data === "/" || data === "+" || data === "-"){
-          return data;
-        }
-      });
-      clean = clean.toString().replace(/,/g,'');
+      if(this.state.screenVal !== '') {
+        clean = this.state.screenVal.split('');
+        clean = clean.filter((data) => {
+          if(isNaN(data) === false || data === "*" || data === "/" || data === "+" || data === "-"){
+            return data;
+          }
+        });
+        clean = clean.toString().replace(/,/g,'');
+      }  else {
+        this.setState({screenVal: ''});
+      }
 
     } catch (err){
       console.log(err);
     }
 
-
-  console.log(clean);
     try {
       eval(clean)
 

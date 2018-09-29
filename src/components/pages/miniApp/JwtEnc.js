@@ -43,7 +43,8 @@ export default class JwtEnc extends React.Component {
   state = {
     uname: '',
     email: '',
-    token: ''
+    token: '',
+    msg: ''
   }
 
 
@@ -55,7 +56,7 @@ export default class JwtEnc extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
-
+    this.setState({msg: "Encrypting... Please wait..."})
 
 
     axios.post('https://nucleus-0.herokuapp.com/cv/Encryption?action=jwt',{
@@ -63,10 +64,10 @@ export default class JwtEnc extends React.Component {
               email: this.state.email,
           })
           .then((r) => {
-            this.setState({token: r.data.token})
+            this.setState({token: r.data.token, msg: 'Completed!'})
           })
           .catch((err) => {
-            this.setState({token: err.response.data.token})
+            this.setState({token: err.response.data.token, msg: "Something is wrong"})
           })
   }
 
@@ -93,6 +94,8 @@ export default class JwtEnc extends React.Component {
              <Col sm={10}>
                 <Input onChange={this.handleChange} type="textarea" rows="6" name="textToken" id="textTokenId" value={this.state.token} />
              </Col>
+
+             <span style={{width: '100%', color: 'red'}}>{this.state.msg}</span>
 
              <Col className="btnCont">
               <Button type="submit" color="primary">Get Token</Button>{' '}

@@ -42,7 +42,8 @@ export default class RandNum extends React.Component {
 
   state = {
     raw: '',
-    enc: ''
+    enc: '',
+    msg: ''
   }
 
 
@@ -54,13 +55,16 @@ export default class RandNum extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
+    this.setState({msg: "Encrypting... Please wait..."})
+
     axios.post('https://nucleus-0.herokuapp.com/cv/Encryption?action=enc',{
               raw: this.state.raw,
-          }).then((r) => {
-            this.setState({enc: r.data.hashed})
+          })
+          .then((r) => {
+            this.setState({enc: r.data.hashed, msg: "Completed!"})
           })
           .catch((err) => {
-          this.setState({enc: err.response.data.hashed})
+          this.setState({enc: err.response.data.hashed, msg: "Something is wrong"})
         })
   }
 
@@ -80,6 +84,8 @@ export default class RandNum extends React.Component {
              <Col sm={10}>
                <Input onChange={this.handleChange} type="text" name="enc" id="rawId" placeholder="Encrypted string result here." value={this.state.enc} />
              </Col>
+
+             <span style={{width: '100%', color: 'red'}}>{this.state.msg}</span>
 
              <Col className="btnCont">
               <Button type="submit" color="primary">Encrypt</Button>{' '}

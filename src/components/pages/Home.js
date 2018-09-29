@@ -125,11 +125,8 @@ let Cont = Styled.div`
           margin: 75px 0 10px 10%;
         }
       }
-
     }
-
   }
-
 `;
 
 
@@ -202,7 +199,6 @@ export default class ReactPage extends React.Component {
           </Row>
 
         </Container>
-
       </Cont>
     );
   }

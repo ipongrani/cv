@@ -58,7 +58,7 @@ export default class JwtEnc extends React.Component {
 
 
 
-    axios.post('http://192.168.1.65:3006/cv/Encryption?action=jwt',{
+    axios.post('https://nucleus-0.herokuapp.com/cv/Encryption?action=jwt',{
               username: this.state.uname,
               email: this.state.email,
           })

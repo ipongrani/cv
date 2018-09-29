@@ -58,7 +58,7 @@ export default class MLabWrite extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
-    axios.post('http://192.168.1.65:3006/cv/Registration?action=xtRet',{
+    axios.post('https://nucleus-0.herokuapp.com/cv/Registration?action=xtRet',{
               key: this.state.key,
               val: this.state.val,
               mlab: this.state.mlab,

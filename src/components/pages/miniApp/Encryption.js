@@ -54,7 +54,7 @@ export default class RandNum extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
-    axios.post('http://192.168.1.65:3006/cv/Encryption?action=enc',{
+    axios.post('https://nucleus-0.herokuapp.com/cv/Encryption?action=enc',{
               raw: this.state.raw,
           }).then((r) => {
             this.setState({enc: r.data.hashed})

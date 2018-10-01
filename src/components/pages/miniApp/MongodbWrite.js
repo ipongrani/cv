@@ -43,8 +43,7 @@ export default class MLabWrite extends React.Component {
   state = {
     mlab: '',
     collection: '',
-    email: '',
-    password: '',
+    textData: '',
     msg: ''
   }
 
@@ -59,17 +58,16 @@ export default class MLabWrite extends React.Component {
 
     this.setState({msg: "Loading... Please wait..."})
 
-    axios.post('https://nucleus-0.herokuapp.com/cv/Registration?action=xtReg',{
-              email: this.state.email,
-              password: this.state.password,
+    console.log(this.state.textData)
+
+    //let d = JSON.parse(this.state.textData.replace(/^\n+|\n+$/g, ""));
+    axios.post('http://localhost:3006/cv/Registration?action=xtReg',{
+              data: this.state.textData,
               mlab: this.state.mlab,
               collection: this.state.collection
           })
           .then((r) => {
             this.setState({msg: r.data.msg})
-          })
-          .then(() => {
-            this.setState({email: '', password: ''});
           })
           .catch((err) => {
             this.setState({msg: err.response.data.msg})
@@ -95,14 +93,9 @@ export default class MLabWrite extends React.Component {
                <Input onChange={this.handleChange} type="text" name="collection" id="collectionId" placeholder="Users" value={this.state.collection} />
              </Col>
 
-             <Label for="email" sm={2}>Email:</Label>
+             <Label for="textData" sm={2}>Data:</Label>
              <Col sm={10}>
-                <Input onChange={this.handleChange} type="email" name="email" id="email_Id" placeholder="mail@mail.com" value={this.state.email} />
-             </Col>
-
-             <Label for="password" sm={2}>Password:</Label>
-             <Col sm={10}>
-                <Input onChange={this.handleChange} type="password" name="password" id="passwordId" placeholder="password" value={this.state.password} />
+                <Input onChange={this.handleChange} type="textarea" rows="10" name="textData" id="textDataId" placeholder="{email: 'mail@mail.com', password: 'password'}" value={this.state.textData} />
              </Col>
 
              <span style={{width: '100%', color: 'red'}}>{this.state.msg}</span>

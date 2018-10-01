@@ -67,7 +67,7 @@ export default class JwtEnc extends React.Component {
             this.setState({token: r.data.token, msg: 'Completed!'})
           })
           .catch((err) => {
-            this.setState({token: err.response.data.token, msg: "Something is wrong"})
+            this.setState({token: err.response.data.token, msg: "Something went wrong, Try again."})
           })
   }
 

@@ -64,7 +64,7 @@ export default class RandNum extends React.Component {
             this.setState({enc: r.data.hashed, msg: "Completed!"})
           })
           .catch((err) => {
-          this.setState({enc: err.response.data.hashed, msg: "Something is wrong"})
+          this.setState({enc: err.response.data.hashed, msg: "Something went wrong, Try again."})
         })
   }
 

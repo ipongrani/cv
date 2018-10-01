@@ -62,39 +62,44 @@ export default class Calc extends React.Component {
 
   eq = () => {
 
-    console.log("screenVal: ", this.state.screenVal)
-    let clean;
+    if (isNaN(this.state.screenVal)){
+      this.setState({screenVal: ''})
+    } else {
 
-    try {
+      console.log("screenVal: ", this.state.screenVal)
+      let clean;
 
-      if(this.state.screenVal !== '') {
-        clean = this.state.screenVal.split('');
-        clean = clean.filter((data) => {
-          if(isNaN(data) === false || data === "*" || data === "/" || data === "+" || data === "-"){
-            return data;
-          }
-        });
-        clean = clean.toString().replace(/,/g,'');
-      }  else {
-        this.setState({screenVal: ''});
+      try {
+
+        if(this.state.screenVal !== '') {
+          clean = this.state.screenVal.split('');
+          clean = clean.filter((data) => {
+            if(isNaN(data) === false || data === "*" || data === "/" || data === "+" || data === "-"){
+              return data;
+            }
+          });
+          clean = clean.toString().replace(/,/g,'');
+        }  else {
+          this.setState({screenVal: ''});
+        }
+
+      } catch (err){
+        console.log(err);
       }
 
-    } catch (err){
-      console.log(err);
-    }
+      try {
+        eval(clean)
 
-    try {
-      eval(clean)
+        if(clean === undefined) {
+          this.setState({screenVal: this.state.screenVal});
+        } else {
+          this.setState({screenVal: eval(clean)})
+        }
 
-      if(clean === undefined) {
-        this.setState({screenVal: this.state.screenVal});
-      } else {
-        this.setState({screenVal: eval(clean)})
+      } catch (e) {
+        console.log(e.message)
       }
-
-    } catch (e) {
-      console.log(e.message)
-    }
+   }
   }
 
   handleClick = (e) => {

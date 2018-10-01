@@ -93,12 +93,12 @@ export default class MLabWrite extends React.Component {
                <Input onChange={this.handleChange} type="text" name="collection" id="collectionId" placeholder="Users" value={this.state.collection} />
              </Col>
 
+             <span style={{width: '100%', color: 'red'}}>{this.state.msg}</span>
+
              <Label for="textData" sm={2}>Data:</Label>
              <Col sm={10}>
                 <Input onChange={this.handleChange} type="textarea" rows="10" name="textData" id="textDataId" placeholder="{email: 'mail@mail.com', password: 'password'}" value={this.state.textData} />
              </Col>
-
-             <span style={{width: '100%', color: 'red'}}>{this.state.msg}</span>
 
              <Col className="btnCont">
               <Button type="submit" color="primary">Register</Button>{' '}

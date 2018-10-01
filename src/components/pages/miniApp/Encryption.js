@@ -57,7 +57,7 @@ export default class RandNum extends React.Component {
 
     this.setState({msg: "Encrypting... Please wait..."})
 
-    axios.post('https://nucleus-0.herokuapp.com/cv/Encryption?action=enc',{
+    axios.post('https://nucleus-0.herokuapp.com/cv/Encryption?action=bcrypt',{
               raw: this.state.raw,
           })
           .then((r) => {

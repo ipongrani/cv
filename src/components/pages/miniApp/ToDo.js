@@ -126,11 +126,13 @@ export default class ToDo extends React.Component {
         switch(e.target.parentNode.getAttribute('name')){
 
           case 'edit' :
-            e.target.parentNode.previousSibling.disabled === false ?
-           (e.target.parentNode.previousSibling.style.borderBottom = edit.borderB,
-            e.target.parentNode.previousSibling.disabled = !e.target.parentNode.previousSibling.disabled) :
-           (e.target.parentNode.previousSibling.style.borderBottom = edit.borderA,
-            e.target.parentNode.previousSibling.disabled = !e.target.parentNode.previousSibling.disabled);
+           if ( e.target.parentNode.previousSibling.disabled === false) {
+            e.target.parentNode.previousSibling.style.borderBottom = edit.borderB;
+            e.target.parentNode.previousSibling.disabled = !e.target.parentNode.previousSibling.disabled;
+           } else {
+            e.target.parentNode.previousSibling.style.borderBottom = edit.borderA;
+            e.target.parentNode.previousSibling.disabled = !e.target.parentNode.previousSibling.disabled;
+           }
           break;
 
           case 'delete' :

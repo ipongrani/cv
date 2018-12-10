@@ -103,6 +103,7 @@ let Cont = Styled.div`
         padding: 0 0 0 8px;
         border-radius: 15px;
         outline:none;
+        cursor: pointer;
         background-color: ${ props => 
                         props.drawerOption === "React" ? 
                         'rgb(160, 208, 255)' : 
@@ -180,19 +181,20 @@ let Cont = Styled.div`
       toggleDrawer(true);
       setDrawerOption(name);
     }
-    
+
   }
 
 
   //generate side buttons
   genSideBtns = (param) => 
     param.map ( data => 
-    <input type="button" 
+    <input type="button"
     name={data.btnName} 
     onClick={this.selectDrawer} 
     value={data.btnName} /> 
   )
 
+  
 
   //dropdown toggle
   toggleDropdown = () => this.setState({ collapse: !this.state.collapse });

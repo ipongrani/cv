@@ -173,10 +173,14 @@ let Cont = Styled.div`
     let name = event['target'].getAttribute('name');
 
     //case action
-    drawer === true && drawerOption === name ? 
-    (toggleDrawer(false), setDrawerOption("default")) : 
-    (toggleDrawer(true), setDrawerOption(name)) ;
-
+    if (drawer === true && drawerOption === name){
+      toggleDrawer(false);
+      setDrawerOption("default");
+    } else {
+      toggleDrawer(true);
+      setDrawerOption(name);
+    }
+    
   }
 
 

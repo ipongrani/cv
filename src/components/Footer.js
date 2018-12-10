@@ -13,16 +13,43 @@ import {
   DropdownMenu,
   DropdownItem } from 'reactstrap';
 
+import { connect } from 'react-redux';
+
+
+
+
+
+
+
+
+const mapStateToProps = (state) => {
+  return {
+    drawer: state.centralState.drawer,
+  };
+};
+
+
+const mapDispatchToProps = dispatch => {
+  return {
+
+  };
+};
+
+
+
+
 
 
 let Cont = Styled.div`
-
-  border-top: 12px solid #404040;
-
-
+ 
+  z-index: 100;
+  padding: ${ props => props.drawer === true ? '0 0 0 200px' : '0' };
+  transition: padding .5s;
 
   nav {
-    background-color: hsl(284, 100%, 10%);
+    
+    border-top: 12px solid #404040;
+    background-color: black; //hsl(284, 100%, 10%);
     display: flex;
     justify-content: center;
 
@@ -48,24 +75,17 @@ let Cont = Styled.div`
 
 
 
+class Footer extends React.Component {
+  
 
-export default class Navoigation extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.toggle = this.toggle.bind(this);
-    this.state = {
-      isOpen: false
-    };
-  }
-  toggle() {
-    this.setState({
-      isOpen: !this.state.isOpen
-    });
-  }
+  //render
   render() {
+
+    //initializer
+    let { drawer } = this.props;
+
     return (
-      <Cont>
+      <Cont drawer={drawer}>
         <Navbar dark expand="md">
 
             <Nav className="ml-auto" navbar>
@@ -91,3 +111,6 @@ export default class Navoigation extends React.Component {
     );
   }
 }
+
+
+export default connect(mapStateToProps,mapDispatchToProps)(Footer)

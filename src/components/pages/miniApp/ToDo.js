@@ -11,12 +11,16 @@ const edit = {
 const TaskInput = Styled.input`
   width: 90%;
   height: 30px;
-  padding: 0;
+  padding: 10px;
   font-size: 24px;
-  text-align: center;
+  text-align: left;
   margin-top: 15px;
   background-color: hsla(51, 93%, 59%, 1);
   border: .5px solid hsla(51, 93%, 59%,1);
+
+   ::placeholder {
+    text-align: center;
+  }
 `;
 
 const TaskList = Styled.input`
@@ -152,7 +156,7 @@ export default class ToDo extends React.Component {
 
   render(){
 
-    console.log("editing here ", this.state.editing)
+    //console.log("editing here ", this.state.editing)
 
     return (
       <div style={{display: 'flex', flexFlow: 'column nowrap', justifyContent: 'center', alignItems: 'center', backgroundColor: 'white'}}>

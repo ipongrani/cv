@@ -162,7 +162,7 @@ export default class Calc extends React.Component {
   render(){
 
     return (
-      <div style={{display: 'flex', flexFlow: 'column nowrap', justifyContent: 'center', alignItems: 'center', backgroundColor: 'white', margin: '0', padding: '0', width: '100%'}}>
+      <div style={{display: 'flex', flexFlow: 'column nowrap', justifyContent: 'center', alignItems: 'center', backgroundColor: 'white', margin: '0', padding: '0'}}>
         <CalcScreen onKeyUp={this.handleChange} onChange={this.handleChange} value={this.state.screenVal} placeholder="0" />
         <CalcKeys>
           <NumCont>{this.Nums}</NumCont>

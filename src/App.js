@@ -11,13 +11,15 @@ import { BrowserRouter } from 'react-router-dom';
 class App extends Component {
   render() {
     return (
-      <BrowserRouter>
-      <div className="App">
-        <Header />
-        <Body />
-        <Footer />
-      </div>
-      </BrowserRouter>
+      
+        <BrowserRouter history={this.props.history}>
+          <div className="App">
+            <Header />
+            <Body />
+            <Footer />
+          </div>
+        </BrowserRouter>
+ 
     );
   }
 }

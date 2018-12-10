@@ -1,0 +1,3 @@
+
+export const TOGGLE_DRAWER = "TOGGLE_DRAWER";
+export const SET_DRAWER_OPTION = "SET_DRAWER_OPTION";

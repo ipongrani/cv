@@ -13,6 +13,25 @@ import {
   DropdownMenu,
   DropdownItem } from 'reactstrap';
 
+import { connect } from 'react-redux';
+
+
+
+
+const mapStateToProps = (state) => {
+  return {
+    drawer: state.centralState.drawer,
+  };
+};
+
+
+const mapDispatchToProps = dispatch => {
+  return {
+
+  };
+};
+
+
 
 
 let Cont = Styled.div`
@@ -20,19 +39,39 @@ let Cont = Styled.div`
 
   position: fixed;
   width: 100%;
-  z-index: 1000;
-  border-bottom: .3px solid #404040;
+  z-index: 100; 
+  padding: ${ props => props.drawer === true ? '0 0 0 200px' : '0' };
+  transition: padding .5s;
+  
 
   nav {
-    background-color: ${props => props.headColor};
+    background-color: black;
+    border-bottom: .3px solid #404040;
+    padding: ${ props => props.drawer === true ? '3px 10px 3px 25px' : '3px 10px 3px 15px' };
+    transition: all .3s;
+
+    .nav-link { 
+      color: white !important;
+    }
+
+    .topLinks { 
+      display: initial;
+
+      @media screen and (min-width: 768px) {
+        display: none;
+      }
+    }
+    
 
     .nb {
       display: flex;
       flex-flow: column nowrap;
       align-items: flex-start;
+      color: white;
 
       span {
         font-size: 14px;
+        color: white;
       }
 
     }
@@ -44,16 +83,20 @@ let Cont = Styled.div`
 
 
 
-export default class Navoigation extends React.Component {
+class Navigation extends React.Component {
   constructor(props) {
     super(props);
 
     this.toggle = this.toggle.bind(this);
     this.state = {
       isOpen: false,
-      headColor: 'hsl(264, 100%, 14%)'
+      headColor: 'white',
+      headFont: 'black'
     };
   }
+
+
+
   toggle() {
     this.setState({
       isOpen: !this.state.isOpen
@@ -64,8 +107,8 @@ export default class Navoigation extends React.Component {
   handleScroll = () => {
 
     window.scrollY > 100 ?
-        this.setState({headColor: 'hsl(284, 100%, 10%)'}) :
-        this.setState({headColor: 'hsl(264, 100%, 14%)'});
+        this.setState({headColor: 'black', headFont: 'white'}) :
+        this.setState({headColor: 'white', headFont: 'black'});
   }
 
 
@@ -81,20 +124,25 @@ export default class Navoigation extends React.Component {
 
 
   render() {
+
+    let { headColor, headFont } = this.state;
+    let { drawer } = this.props
+
+
     return (
-      <Cont headColor={this.state.headColor}>
+      <Cont headColor={headColor} drawer={drawer} headFont={headFont}>
         <Navbar dark expand="md">
           <NavbarBrand href="/"><div className="nb" >Rani T. Ipong<span>Back-end / Front-end Developer</span></div></NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
-              <NavItem>
+              <NavItem className="topLinks">
                 <NavLink href="#Node">Node.js</NavLink>
               </NavItem>
-              <NavItem>
+              <NavItem className="topLinks">
                 <NavLink href="#React">React.js</NavLink>
               </NavItem>
-              <NavItem>
+              <NavItem className="topLinks">
                 <NavLink href="#Mongo">Mongo.db</NavLink>
               </NavItem>
               <UncontrolledDropdown nav inNavbar>
@@ -118,3 +166,6 @@ export default class Navoigation extends React.Component {
     );
   }
 }
+
+
+export default connect(mapStateToProps,mapDispatchToProps)(Navigation);

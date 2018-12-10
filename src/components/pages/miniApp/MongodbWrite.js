@@ -8,6 +8,7 @@ import { Button, Form, FormGroup, Label, Input, FormText, Col } from 'reactstrap
 let Cont = Styled.div`
   background-color: white;
   padding: 10px 10px 5px 10px;
+  max-width: 780px;
   height: auto;
 
   button{

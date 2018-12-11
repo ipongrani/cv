@@ -33,9 +33,14 @@ const mapDispatchToProps = dispatch => {
 
 let Cont = Styled.div`
   margin: 0;
-  padding:  15px;
-  width: 90%;
+  padding: 0;
+  width: 100%;
   //border: 3px solid green;
+
+  @media screen and (min-width: 800px){
+     width: 90%;
+     padding:  15px;
+  }
 
   
   /*
@@ -45,9 +50,42 @@ let Cont = Styled.div`
   align-items: center;
   */
 
+  .singleAppCont {
+    //border: 3px solid red;
+    border-radius: 30px;
+    padding: .5% 1.5% .5% 1.5%;
+    width: 100%;
+    margin: 15px 0 30px 0
+    background-color: rgb(240, 240, 240);
+    
+     h3 {
+      width: 100%;
+      padding: 0;
+      text-align: left;
+      margin: 15px;
+    }
+
+    @media screen and (min-width: 800px){
+      border-radius: 30px;
+      padding: 3%;
+
+      h3 {
+      width: 100%;
+      padding: 0 0 0 16.5%;
+      text-align: left;
+      margin: 15px;
+    }
+    }
+
+   
+  }
+
   .singleApp {
-    margin: 15px auto 15px auto;
+    margin: 15px auto 35px auto;
     max-width: 780px;
+    box-shadow: 0px 0px 9px rgb(66, 215, 244);
+
+    
   }
 
   @media screen and (min-width: 800px) {
@@ -72,8 +110,11 @@ let Cont = Styled.div`
   //generate display in main
   genDisplay = (param) => 
     param.map ( data => 
-    <div className={`singleApp ${data.class}`} > 
-      { data.element }
+    <div className="singleAppCont">
+      <h3>{data.title}:</h3>
+      <div className={`singleApp ${data.class}`} > 
+        { data.element }
+      </div>
     </div> 
   )
 
@@ -83,14 +124,14 @@ let Cont = Styled.div`
    
     //initialize
     let { genDisplay } = this;
-    let mainDisplay = [ {element: <Encryption />, class: 'wide'},
-                        {element: <JwtEnc />, class: 'wide'},
-                        {element: <Calc />, class: 'wide calc'},
-                        {element: <ToDo />, class: 'wide todo'},
-                        {element: <RandNum />, class: 'wide randnum'}, 
-                        {element: <MLabWrite />, class: 'wide'},
-                        {element: <MLabRead />, class: 'wide'},
-                        {element: <Gql />, class: 'wide'} ];
+    let mainDisplay = [ {element: <Encryption />, class: 'wide', title: "BCrypt Encryption"},
+                        {element: <JwtEnc />, class: 'wide', title: "JWT Encryption"},
+                        {element: <Calc />, class: 'wide calc', title: "React Simple Calculator"},
+                        {element: <ToDo />, class: 'wide todo', title: "React Simple To-Do List"},
+                        {element: <RandNum />, class: 'wide randnum', title: "React Random Number"}, 
+                        {element: <MLabWrite />, class: 'wide', title: "MongoDb Write example"},
+                        {element: <MLabRead />, class: 'wide', title: "MongoDb Read Example"},
+                        {element: <Gql />, class: 'wide', title: "BCrypt Encryption"} ];
 
     let display = <React.Fragment>
                       <Container fluid className="reactBasic topCont">

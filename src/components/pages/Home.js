@@ -121,7 +121,7 @@ let Cont = Styled.div`
 
 
   .containerBody {
-    background-color: rgb(240, 240, 240);
+    background-color: rgb(14, 130, 155);
     padding: 50px 0 20px 0;
     min-height: 100vh;
     //border: 3px solid red;
@@ -130,7 +130,7 @@ let Cont = Styled.div`
 
       padding: 55px 10px 30px 10px !important;
       transition: padding .5s;
-      padding-left: ${ props => props.drawer === true ? '215px !important' : '10px'};
+      padding-left: ${ props => props.drawer === true ? '230px !important' : '10px'};
     
     }
 
@@ -142,7 +142,7 @@ let Cont = Styled.div`
       width: 100%;
       margin-top: 15px;
       padding: 10px
-      //order: 3px solid blue;
+      //border: 3px solid blue;
     }
 
   }
@@ -154,8 +154,27 @@ let Cont = Styled.div`
   //state
   state = {
     collapse: false,
-    miniApp: '',
+    btnVal: 'react',
   }
+
+
+  //initializers
+  reactList = [{routeName: "todo", title: "Simple To-Do list", comp: ToDo},
+                {routeName: "calc", title: "Simple Calculator", comp: Calc},
+                {routeName: "randnum", title: "Random Number", comp: RandNum}];
+
+  nodeList = [{routeName: "bcryptencryption", title: "BCrypt Encryption", comp: Encryption},
+              {routeName: "jwtEncryption", title: "JWT Encryption", comp: JwtEnc}];
+
+  dbList = [{routeName: "mongowrite", title: "Writing to MongoDb", comp: MLabWrite},
+            {routeName: "mongread", title: "Reading from MongoDb", comp: MLabRead}];
+  
+  sideBtns = [ {btnName: 'React', btnVal: 'react'},
+               {btnName: 'Node', btnVal: 'node'},
+               {btnName: 'Databases', btnVal: 'db'} ];
+
+  
+
 
 
   componentDidUpdate(prevProps, prevState) {
@@ -172,7 +191,10 @@ let Cont = Styled.div`
     //initialize
     let { toggleDrawer, setDrawerOption, drawer, drawerOption } = this.props;
     let name = event['target'].getAttribute('name');
-
+    let btnVal = event['target'].getAttribute('value');
+    
+    this.setState({btnVal});
+    
     //case action
     if (drawer === true && drawerOption === name){
       toggleDrawer(false);
@@ -191,25 +213,40 @@ let Cont = Styled.div`
     <input type="button"
     name={data.btnName} 
     onClick={this.selectDrawer} 
-    value={data.btnName} /> 
+    value={data.btnVal} /> 
   )
 
-  
+  //generate pane links
+  genPanelLinks = (param) => 
+    param.map(d => 
+    <Link type="button" name={d.routeName} to={`/sample/${d.routeName}`}>{d.title}</Link>
+  )
+
+
+  //generate routes
+  genRoute = (param) =>
+    param.map((d,i) => 
+    <Route path={`/sample/${d.routeName}`} component={d.comp} />
+  )
+    
 
   //dropdown toggle
-  toggleDropdown = () => this.setState({ collapse: !this.state.collapse });
+  toggleDropdown = () => 
+    this.setState({ collapse: !this.state.collapse });
 
   
-
 
   //Render
   render() {
    
     //initialize
-    let { collapse } = this.state;
+    let { genPanelLinks, genRoute } = this;
+    let { collapse, btnVal } = this.state;
+    console.log("btnVal", btnVal);
     let { drawer, drawerOption } = this.props;
     let { selectDrawer, genSideBtns, toggleDropdown, handlePanelClick } = this; 
-    let sideBtns = [ {btnName: 'React'}, {btnName: 'Node'}, {btnName: 'Databases'} ];
+ 
+
    
 
   //return
@@ -219,33 +256,10 @@ let Cont = Styled.div`
         <div className="panel mainPanel">
             <div className="panel subPanel">
               <h3>{ drawerOption }</h3>
-              { 
-                drawerOption === "React" ?
-                (
-                 <React.Fragment>
-                  <Link type="button" name="ToDo" to="/sample/todo">Simple To-Do list</Link>
-                  <Link type="button" name="Calc" to="/sample/calc">Simple Calculator</Link>
-                  <Link type="button" name="RandNum" to="/sample/randnum">Random Number</Link>
-                 </React.Fragment>
-                 ) : 
-                 drawerOption === "Node" ?
-                 (
-                 <React.Fragment>
-                  <Link type="button" name="Encryption" to="/sample/encryption">BCrypt Encryption</Link>
-                  <Link type="button" name="JwtEnc" to="/sample/jwtEncryption">JWT Encryption</Link>
-                 </React.Fragment>
-                 ) :
-                 drawerOption === "Databases" ?
-                 (
-                 <React.Fragment>
-                  <Link type="button" name="Encryption" to="/sample/mongowrite">Writing to MongoDb</Link>
-                  <Link type="button" name="JwtEnc" to="/sample/mongread">Reading from MongoDb</Link>
-                 </React.Fragment>
-                 ) : null 
-              }
+              { genPanelLinks( this[`${btnVal}List`] ) }
             </div>
             <div className="sideBtn">
-              { genSideBtns(sideBtns) }
+              { genSideBtns(this['sideBtns']) }
             </div>
         </div>
 
@@ -253,13 +267,7 @@ let Cont = Styled.div`
         <Container fluid className="containerBody">
           <div className="displayPage">
               <Route exact path="/" component={Welcome} />
-              <Route path="/sample/todo" component={ToDo} />
-              <Route path="/sample/calc" component={Calc} />
-              <Route path="/sample/randnum" component={RandNum} />
-              <Route path="/sample/encryption" component={Encryption} />
-              <Route path="/sample/jwtEncryption" component={JwtEnc} /> 
-              <Route path="/sample/mongowrite" component={MLabWrite} />
-              <Route path="/sample/mongread" component={MLabRead} /> 
+             { genRoute([...this.reactList,...this.nodeList,...this.dbList]) }
           </div>
         </Container>
 

@@ -49,7 +49,7 @@ let Cont = Styled.div`
   nav {
     
     border-top: 12px solid #404040;
-    background-color: black; //hsl(284, 100%, 10%);
+    background-color: #11454f; //black; //hsl(284, 100%, 10%);
     display: flex;
     justify-content: center;
 

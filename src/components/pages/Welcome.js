@@ -56,7 +56,7 @@ let Cont = Styled.div`
     padding: .5% 1.5% .5% 1.5%;
     width: 100%;
     margin: 15px 0 30px 0
-    background-color: rgb(240, 240, 240);
+    //background-color: rgb(240, 240, 240);
     
      h3 {
       width: 100%;
@@ -83,9 +83,7 @@ let Cont = Styled.div`
   .singleApp {
     margin: 15px auto 35px auto;
     max-width: 780px;
-    box-shadow: 0px 0px 9px rgb(66, 215, 244);
-
-    
+    box-shadow: 0px 0px 9px rgb(66, 215, 244);    
   }
 
   @media screen and (min-width: 800px) {

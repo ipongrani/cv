@@ -40,13 +40,20 @@ let Cont = Styled.div`
 
 
   .mainPanel {
-    border-right: ${ props => props.drawer === true ? '3px solid grey' : '0'};
-    width: ${ props => props.drawer === true ? '205px !important' : '200px'};
+    //border-right: ${ props => props.drawer === true ? '1.5px solid black' : '0'};
+    width: ${ props => props.drawer === true ? '201px !important' : '200px'};
   }
 
   .subPanel {
     //border: 1px solid red;
     padding: 18px 0 0 0;
+    //background-color: rgb(67, 0, 237);
+
+    a {
+      color: white;
+      padding: 0 0 0 15px;
+      text-align: left;
+    }
   }
 
   .panel, .mainPanel {
@@ -54,17 +61,11 @@ let Cont = Styled.div`
     width: 200px;
     height: 100vh;
     position: fixed;
+    color: white;
     top: 0;
     left: ${ props => props.drawer === true ? '0' : '-200px'};
-    background-color: ${ props => 
-                        props.drawerOption === "React" ? 
-                        'rgb(160, 208, 255)' : 
-                        props.drawerOption === "Node" ? 
-                        'rgb(182, 255, 175)' :
-                        props.drawerOption === "Databases" ? 
-                        'rgb(255, 255, 209)' : 
-                        "white"
-                      };  
+    //background-image: linear-gradient(to bottom right, rgb(67, 0, 237) , rgb(98, 10, 214));
+    background-color: #11454f;
     transition: all .5s;
     z-index: 101;
     display: none;
@@ -87,7 +88,7 @@ let Cont = Styled.div`
       width: 100px;
       height: 200px;
       position: absolute;
-      right: -90px
+      right: -80px
       top: 85px;
       display: flex;
       flex-flow: column nowrap;
@@ -121,7 +122,9 @@ let Cont = Styled.div`
 
 
   .containerBody {
-    background-color: rgb(14, 130, 155);
+    //background-color: white; //rgb(14, 130, 155);
+    //background-image: linear-gradient(to right, rgb(67, 0, 237) , rgb(237, 0, 134));
+    background-color: rgb(225, 225, 225); //#93d9d8;
     padding: 50px 0 20px 0;
     min-height: 100vh;
     //border: 3px solid red;
@@ -177,10 +180,12 @@ let Cont = Styled.div`
 
 
 
-  componentDidUpdate(prevProps, prevState) {
-    
-    window.scrollTo(0, 0);
-  
+  componentDidMount() {
+    let { history } = this.props;
+
+    history.listen( _ => {
+      window.scrollTo(0, 0)  
+    })
   }
 
 
@@ -219,7 +224,7 @@ let Cont = Styled.div`
   //generate pane links
   genPanelLinks = (param) => 
     param.map(d => 
-    <Link type="button" name={d.routeName} to={`/sample/${d.routeName}`}>{d.title}</Link>
+    <Link name={d.routeName} to={`/sample/${d.routeName}`}>{d.title}</Link>
   )
 
 

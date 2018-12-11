@@ -45,7 +45,7 @@ let Cont = Styled.div`
   
 
   nav {
-    background-color: black;
+    background-color: #11454f;
     border-bottom: .3px solid #404040;
     padding: ${ props => props.drawer === true ? '3px 10px 3px 25px' : '3px 10px 3px 15px' };
     transition: all .3s;

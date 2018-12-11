@@ -62,10 +62,6 @@ export default class Calc extends React.Component {
 
   eq = () => {
 
-    if (isNaN(this.state.screenVal)){
-      this.setState({screenVal: ''})
-    } else {
-
       console.log("screenVal: ", this.state.screenVal)
       let clean;
 
@@ -99,7 +95,7 @@ export default class Calc extends React.Component {
       } catch (e) {
         console.log(e.message)
       }
-   }
+   
   }
 
   handleClick = (e) => {
@@ -109,6 +105,7 @@ export default class Calc extends React.Component {
 
       case '=' :
         this.eq();
+        console.log("eual selected")
       break;
 
       case 'C' :

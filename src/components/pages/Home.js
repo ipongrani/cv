@@ -194,7 +194,7 @@ let Cont = Styled.div`
 
     setDdList(
       [{routeName: "mongowrite", title: "Writing to MongoDb", comp: MLabWrite},
-      {routeName: "mongread", title: "Reading from MongoDb", comp: MLabRead}])
+      {routeName: "mongoread", title: "Reading from MongoDb", comp: MLabRead}])
 
     setSideButtons(
       [{btnName: 'React', btnVal: 'react'},

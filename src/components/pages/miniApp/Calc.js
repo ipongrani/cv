@@ -3,47 +3,71 @@ import Styled from 'styled-components';
 
 
 const CalcScreen = Styled.input`
-  width: 100%;
-  height: 65px;
+  width: 90%;
+  height: 45px;
   padding: 2.5px;
-  font-size: 36px;
+  font-size: 24px;
   text-align: right;
+  margin-top: 3%;
   background-color: hsl(211,100%,91%);
   border: .5px solid hsl(166,100%,59%);
 `;
 
 const CalcKeys = Styled.div`
-  width: 100%;
-  height: 210px;
+  width: 90%;
+  height: 200px;
   border: .5px solid hsl(196,100%,63%);
   display: grid;
   grid-template-columns: 3fr 1fr;
+
+  .numCont {
+    width: 100%;
+    height: auto;
+    display: grid;
+    grid-gap: 1px;
+    grid-template-columns: auto auto auto;
+
+    .keys {
+      width: 100%;
+      height: 40px;
+      border: .5px solid hsl(196,100%,63%);
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+
+  .opCont {
+    width: 100%;
+    height: auto;
+    display: grid;
+    grid-gap: 1px;
+    grid-template-columns: auto;
+  }
+
+
 `;
 
 const NumCont = Styled.div`
-width: 100%;
-height: auto;
-display: grid;
-grid-gap: 0;
-grid-template-columns: 1fr 1fr 1fr;
-`;
+  width: 100%;
+  height: auto;
+  display: grid;
+  grid-gap: 1px;
+  grid-template-columns: auto auto auto;
 
-const OpCont = Styled.div`
-width: 100%;
-height: auto;
-display: grid;
-grid-gap: 1px;
-grid-template-columns: auto;
-`;
+  .keys {
+    width: 100%;
+    height: 40px;
+    border: .5px solid hsl(196,100%,63%);
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+  }
 
-const Numpad = Styled.div`
-width: 100%;
-height: auto;
-border: .5px solid hsl(196,100%,63%);
-display: flex;
-flex-flow: row nowrap;
-justify-content: center;
-align-items: center;
+
 `;
 
 
@@ -53,38 +77,24 @@ align-items: center;
 export default class Calc extends React.Component {
 
   state = {
-    screenVal: ''
+    screenVal: '',
+    nums: [],
   }
 
-  Nums = [];
-
-  Ops = [];
 
   eq = () => {
 
-      console.log("screenVal: ", this.state.screenVal)
-      let clean;
-
-      try {
-
-        if(this.state.screenVal !== '') {
-          clean = this.state.screenVal.split('');
-          clean = clean.filter((data) => {
-            if(isNaN(data) === false || data === "*" || data === "/" || data === "+" || data === "-"){
-              return data;
-            }
-          });
-          clean = clean.toString().replace(/,/g,'');
-        }  else {
-          this.setState({screenVal: ''});
-        }
-
-      } catch (err){
-        console.log(err);
-      }
-
-      try {
-        eval(clean)
+    try {
+      if(this.state.screenVal !== '') {
+        let clean = this.state.screenVal.split('');
+        
+        clean = clean.filter((data) => {
+          if(isNaN(data) === false || data === "*" || data === "/" || data === "+" || data === "-"){
+            return data;
+          }
+        });
+        
+        clean = clean.toString().replace(/,/g,'');
 
         if(clean === undefined) {
           this.setState({screenVal: this.state.screenVal});
@@ -92,20 +102,23 @@ export default class Calc extends React.Component {
           this.setState({screenVal: eval(clean)})
         }
 
-      } catch (e) {
-        console.log(e.message)
+      }  else {
+        this.setState({screenVal: ''});
       }
-   
+
+    } catch (err){
+      console.log(err);
+    }
+
   }
 
   handleClick = (e) => {
-    console.log(e.target.innerHTML);
+   
 
-    switch(e.target.innerHTML){
+    switch(e['target'].value){
 
       case '=' :
         this.eq();
-        console.log("eual selected")
       break;
 
       case 'C' :
@@ -113,7 +126,7 @@ export default class Calc extends React.Component {
       break;
 
       default :
-        this.setState({screenVal: `${this.state.screenVal}${e.target.innerHTML}`})
+        this.setState({screenVal: `${this.state.screenVal}${e['target'].value}`})
       break;
     }
 
@@ -127,9 +140,11 @@ export default class Calc extends React.Component {
     }
   }
 
-  componentWillMount () {
+  componentDidMount () {
+    
     for(let x = 0; x <= 12; x++) {
-
+      
+      let { nums } = this.state;
       let n = x;
 
       switch (x) {
@@ -138,19 +153,19 @@ export default class Calc extends React.Component {
         break;
 
         case 10 :
-          this.Nums.push(<Numpad onClick={this.handleClick}>0</Numpad>)
+          this.setState({nums: nums.push(<input type="button" onClick={this.handleClick} value="0" />)})
         break;
 
         case 11 :
-          this.Nums.push(<Numpad eq={true} onClick={this.handleClick}>=</Numpad>)
+          this.setState({nums: nums.push(<input type="button" onClick={this.handleClick} value="=" />)})
         break;
 
         case 12 :
-          this.Nums.push(<Numpad onClick={this.handleClick}>C</Numpad>)
+          this.setState({nums: [...nums, <input type="button" onClick={this.handleClick} value="C" />]})
         break;
 
         default :
-          this.Nums.push(<Numpad onClick={this.handleClick}>{n}</Numpad>)
+          this.setState({nums: nums.push(<input type="button" onClick={this.handleClick} value={n} />)})
         break;
       }
     };
@@ -158,17 +173,20 @@ export default class Calc extends React.Component {
 
   render(){
 
+    let { nums } = this.state;
+
+
     return (
-      <div style={{display: 'flex', flexFlow: 'column nowrap', justifyContent: 'center', alignItems: 'center', backgroundColor: 'white', margin: '0', padding: '0'}}>
+      <div style={{display: 'flex', flexFlow: 'column nowrap', justifyContent: 'center', alignItems: 'center'}}>
         <CalcScreen onKeyUp={this.handleChange} onChange={this.handleChange} value={this.state.screenVal} placeholder="0" />
         <CalcKeys>
-          <NumCont>{this.Nums}</NumCont>
-          <OpCont>
-            <Numpad onClick={this.handleClick} >+</Numpad>
-            <Numpad onClick={this.handleClick} >-</Numpad>
-            <Numpad onClick={this.handleClick} >*</Numpad>
-            <Numpad onClick={this.handleClick} >/</Numpad>
-          </OpCont>
+          <div className="numCont">{nums}</div>
+          <div className="opCont">
+            <input type="button" onClick={this.handleClick} value= "+" />
+            <input type="button" onClick={this.handleClick} value="-" />
+            <input type="button" onClick={this.handleClick} value="*" />
+            <input type="button" onClick={this.handleClick} value="/"/>
+          </div>
         </CalcKeys>
       </div>
     )

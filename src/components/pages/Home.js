@@ -11,7 +11,8 @@ import MLabRead from './miniApp/MongodbRead';
 import Gql from './miniApp/gql';
 import Welcome from './Welcome';
 import { Collapse, Button, CardBody, Card } from 'reactstrap';
-import { toggleDrawer, setDrawerOption } from '../../lib/redux/actions/index';
+import { toggleDrawer, setDrawerOption, setSideButtons,
+         setNodeList, setDdList, setReactList } from '../../lib/redux/actions/index';
 import { connect } from 'react-redux';
 import { Switch, Route, Link, Redirect } from 'react-router-dom';
 //import Home_ from './Home_';
@@ -21,6 +22,10 @@ const mapStateToProps = (state) => {
   return {
     drawer: state.centralState.drawer,
     drawerOption: state.centralState.drawerOption,
+    reactList: state.centralState.reactList,
+    nodeList: state.centralState.nodeList,
+    dbList: state.centralState.dbList,
+    sideBtns: state.centralState.sideBtns
   };
 };
 
@@ -28,7 +33,11 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => {
   return {
     toggleDrawer: param => dispatch(toggleDrawer(param)),
-    setDrawerOption: param => dispatch(setDrawerOption(param))
+    setDrawerOption: param => dispatch(setDrawerOption(param)),
+    setSideButtons: param => dispatch(setSideButtons(param)),
+    setNodeList: param => dispatch(setNodeList(param)),
+    setReactList: param => dispatch(setReactList(param)),
+    setDdList: param => dispatch(setDdList(param)),
   };
 };
 
@@ -161,32 +170,38 @@ let Cont = Styled.div`
   }
 
 
-  //initializers
-  reactList = [{routeName: "todo", title: "Simple To-Do list", comp: ToDo},
-                {routeName: "calc", title: "Simple Calculator", comp: Calc},
-                {routeName: "randnum", title: "Random Number", comp: RandNum}];
-
-  nodeList = [{routeName: "bcryptencryption", title: "BCrypt Encryption", comp: Encryption},
-              {routeName: "jwtEncryption", title: "JWT Encryption", comp: JwtEnc}];
-
-  dbList = [{routeName: "mongowrite", title: "Writing to MongoDb", comp: MLabWrite},
-            {routeName: "mongread", title: "Reading from MongoDb", comp: MLabRead}];
-  
-  sideBtns = [ {btnName: 'React', btnVal: 'react'},
-               {btnName: 'Node', btnVal: 'node'},
-               {btnName: 'Databases', btnVal: 'db'} ];
-
-  
-
-
 
   componentDidMount() {
+    let { setDdList, setNodeList, setReactList, setSideButtons } = this.props;
+
     let { history } = this.props;
 
     history.listen( _ => {
       window.scrollTo(0, 0)  
     })
+
+    console.log("it went in")
+
+
+    setReactList(
+      [{routeName: "todo", title: "Simple To-Do list", comp: ToDo},
+      {routeName: "calc", title: "Simple Calculator", comp: Calc},
+      {routeName: "randnum", title: "Random Number", comp: RandNum}])
+
+    setNodeList(
+      [{routeName: "bcryptencryption", title: "BCrypt Encryption", comp: Encryption},
+      {routeName: "jwtEncryption", title: "JWT Encryption", comp: JwtEnc}])
+
+    setDdList(
+      [{routeName: "mongowrite", title: "Writing to MongoDb", comp: MLabWrite},
+      {routeName: "mongread", title: "Reading from MongoDb", comp: MLabRead}])
+
+    setSideButtons(
+      [{btnName: 'React', btnVal: 'react'},
+       {btnName: 'Node', btnVal: 'node'},
+       {btnName: 'Databases', btnVal: 'db'}])
   }
+
 
 
   //select drawer
@@ -245,12 +260,11 @@ let Cont = Styled.div`
   render() {
    
     //initialize
-    let { genPanelLinks, genRoute } = this;
     let { collapse, btnVal } = this.state;
     console.log("btnVal", btnVal);
-    let { drawer, drawerOption } = this.props;
-    let { selectDrawer, genSideBtns, toggleDropdown, handlePanelClick } = this; 
- 
+    let { drawer, drawerOption, reactList, nodeList, dbList } = this.props;
+    let { selectDrawer, genSideBtns, toggleDropdown, handlePanelClick,
+          genPanelLinks, genRoute } = this; 
 
    
 
@@ -261,10 +275,18 @@ let Cont = Styled.div`
         <div className="panel mainPanel">
             <div className="panel subPanel">
               <h3>{ drawerOption }</h3>
-              { genPanelLinks( this[`${btnVal}List`] ) }
+             { 
+               this.props[`${btnVal}List`].length > 0 ?
+               genPanelLinks( this.props[`${btnVal}List`] ) :
+               <p>Error</p>    
+             }
             </div>
             <div className="sideBtn">
-              { genSideBtns(this['sideBtns']) }
+             { 
+               this.props['sideBtns'].length > 0 ?
+               genSideBtns(this.props['sideBtns']) :
+               <p>Error</p>
+             } 
             </div>
         </div>
 
@@ -272,7 +294,11 @@ let Cont = Styled.div`
         <Container fluid className="containerBody">
           <div className="displayPage">
               <Route exact path="/" component={Welcome} />
-             { genRoute([...this.reactList,...this.nodeList,...this.dbList]) }
+             { 
+               dbList.length > 0 && reactList.length > 0 && nodeList.length > 0 ?
+               genRoute([...reactList,...nodeList,...dbList]) :
+               <p>Error</p>
+             }
           </div>
         </Container>
 

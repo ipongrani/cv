@@ -62,7 +62,7 @@ export default class MLabWrite extends React.Component {
     console.log(this.state.textData)
 
     //let d = JSON.parse(this.state.textData.replace(/^\n+|\n+$/g, ""));
-    axios.post('https://nucleus-0.herokuapp.com/cv/Registration?action=xtReg',{
+    axios.post('http://localhost:3006/cv/Registration?action=xtReg',{
               data: this.state.textData,
               mlab: this.state.mlab,
               collection: this.state.collection
@@ -98,7 +98,7 @@ export default class MLabWrite extends React.Component {
 
              <Label for="textData" sm={2}>Data:</Label>
              <Col sm={10}>
-                <Input onChange={this.handleChange} type="textarea" rows="10" name="textData" id="textDataId" placeholder="{email: 'mail@mail.com', password: 'password'}" value={this.state.textData} />
+                <Input onChange={this.handleChange} type="textarea" rows="10" name="textData" id="textDataId" placeholder={`Please Observe double quotes: \n{ "email" : "mail@mail.com", "password" : "password" }`} value={this.state.textData} />
              </Col>
 
              <Col className="btnCont">

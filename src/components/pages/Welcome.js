@@ -10,7 +10,7 @@ import MLabWrite from './miniApp/MongodbWrite';
 import MLabRead from './miniApp/MongodbRead';
 import Gql from './miniApp/gql';
 import { Collapse, Button, CardBody, Card } from 'reactstrap';
-import { toggleDrawer, setDrawerOption } from '../../lib/redux/actions/index';
+import { toggleDrawer, setDrawerOption, setMainDisplay } from '../../lib/redux/actions/index';
 import { connect } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
 
@@ -19,6 +19,7 @@ const mapStateToProps = (state) => {
   return {
     drawer: state.centralState.drawer,
     drawerOption: state.centralState.drawerOption,
+    mainDisplay: state.centralState.mainDisplay
   };
 };
 
@@ -26,7 +27,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => {
   return {
     toggleDrawer: param => dispatch(toggleDrawer(param)),
-    setDrawerOption: param => dispatch(setDrawerOption(param))
+    setDrawerOption: param => dispatch(setDrawerOption(param)),
+    setMainDisplay: param => dispatch(setMainDisplay(param)),
   };
 };
 
@@ -102,8 +104,22 @@ let Cont = Styled.div`
 
 
  class Home extends React.Component {
-  
 
+
+  componentDidMount() {
+    let{ setMainDisplay } = this.props;
+
+    setMainDisplay([ 
+    {element: <Encryption />, class: 'wide', title: "BCrypt Encryption"},
+    {element: <JwtEnc />, class: 'wide', title: "JWT Encryption"},
+    {element: <Calc />, class: 'wide calc', title: "React Simple Calculator"},
+    {element: <ToDo />, class: 'wide todo', title: "React Simple To-Do List"},
+    {element: <RandNum />, class: 'wide randnum', title: "React Random Number"}, 
+    {element: <MLabWrite />, class: 'wide', title: "MongoDb Write example"},
+    {element: <MLabRead />, class: 'wide', title: "MongoDb Read Example"},
+    {element: <Gql />, class: 'wide', title: "BCrypt Encryption"} ]);
+  }
+  
 
   //generate display in main
   genDisplay = (param) => 
@@ -122,87 +138,21 @@ let Cont = Styled.div`
    
     //initialize
     let { genDisplay } = this;
-    let mainDisplay = [ {element: <Encryption />, class: 'wide', title: "BCrypt Encryption"},
-                        {element: <JwtEnc />, class: 'wide', title: "JWT Encryption"},
-                        {element: <Calc />, class: 'wide calc', title: "React Simple Calculator"},
-                        {element: <ToDo />, class: 'wide todo', title: "React Simple To-Do List"},
-                        {element: <RandNum />, class: 'wide randnum', title: "React Random Number"}, 
-                        {element: <MLabWrite />, class: 'wide', title: "MongoDb Write example"},
-                        {element: <MLabRead />, class: 'wide', title: "MongoDb Read Example"},
-                        {element: <Gql />, class: 'wide', title: "BCrypt Encryption"} ];
+    let { mainDisplay } = this.props;
 
-    let display = <React.Fragment>
-                      <Container fluid className="reactBasic topCont">
-                        <Row id="Node">
-                          <Col className="catTitle">
-                            <h2>Node.js + Express.js:</h2>
-                          </Col>
-                        </Row>
 
-                        <Row>
-                          <div className="appSingleCont">
-                            <div className="singleApp">
-                              <Encryption />
-                            </div>
 
-                            <div className="singleApp">
-                              <JwtEnc />
-                            </div>
-                          </div>
-                        </Row>
-                      </Container>
-
-                      <Container id="React" fluid className="reactBasic">
-                        <Row >
-                          <Col className="catTitle">
-                            <h2>React.js:</h2>
-                          </Col>
-                        </Row>
-
-                        <div className="appList">
-                          <div className="miniApp">
-                            <Calc />
-                          </div>
-
-                          <div className="miniApp">
-                            <ToDo />
-                          </div>
-
-                          <div className="miniApp">
-                            <RandNum />
-                          </div>
-                        </div>
-                      </Container>
-
-                      <Container id="Mongo" fluid className="reactBasic">
-                        <Row id="Mongodb">
-                          <Col className="catTitle">
-                            <h2>Mongodb:</h2>
-                          </Col>
-                        </Row>
-
-                        <Row>
-                          <div className="appSingleCont">
-                            <div className="singleApp">
-                              <MLabWrite />
-                            </div>
-                            <div className="singleApp">
-                              <MLabRead />
-                            </div>
-                            <div className="singleApp">
-                              <Gql />
-                            </div>
-                          </div>
-                        </Row>
-
-                      </Container>
-                  </React.Fragment>
-
-  //return
+  //returnconsole.log("mainDisplay: ", mainDisplay)
     return (
-      <Cont>
-        { genDisplay(mainDisplay) }
-      </Cont>
+      <React.Fragment>
+        <Cont>
+          { 
+            mainDisplay.length > 0 ? 
+            genDisplay(mainDisplay) :
+            <h1>LOADING</h1> 
+          }
+        </Cont>
+      </React.Fragment>
     );
   }
 }

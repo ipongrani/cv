@@ -62,7 +62,7 @@ export default class MLabWrite extends React.Component {
     console.log(this.state.textData)
 
     //let d = JSON.parse(this.state.textData.replace(/^\n+|\n+$/g, ""));
-    axios.post('http://localhost:3006/cv/Registration?action=xtReg',{
+    axios.post('https://nucleus-0.herokuapp.com/cv/Registration?action=xtReg',{
               data: this.state.textData,
               mlab: this.state.mlab,
               collection: this.state.collection
